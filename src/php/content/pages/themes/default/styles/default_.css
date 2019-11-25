@@ -1,0 +1,410 @@
+html,body{
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	/*overflow: hidden;*/
+}
+
+body{
+	font-family: Arial;
+}
+
+header, main, footer{
+	position: relative;
+	clear: both;
+}
+
+main{
+	clear: both;
+	/*height: 83.38%;
+
+	overflow: auto;*/
+}
+
+fieldset{
+	border: 1px solid #CCCCCC;
+	margin-bottom: 12px;
+	position: relative;
+	font-size: 96%;
+}
+
+legend, fieldset label{
+	font-weight: bold;
+}
+
+button{
+	padding: 12px;
+	padding-left: 24px;
+	padding-right: 24px;
+	margin-right: 12px;
+	/*border: 1px solid #008000;
+	background-color: #008000;*/
+	border-top-right-radius: 6px;
+	border-bottom-left-radius: 6px;
+	/*color: #FFFFFF;*/
+	color: #333;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+button.cancel{
+	/*background-color: #808000;*/
+}
+
+.bar{
+	height: 32px;
+	padding-top: 12px;
+	padding-right: 24px;
+	padding-bottom: 12px;
+	padding-left: 24px;
+	background-color: #EFEFEF;
+	line-height: 32px;
+}
+
+footer.bar{
+	height: auto;
+}
+
+.container{
+	width:80%;
+	float: left;
+}
+
+main div.container{
+	/*height:100%;
+	overflow: auto;*/
+}
+
+input{
+	margin-bottom: 6px;
+	padding: 6px;
+	display: block;
+}
+
+fieldset label, fieldset input, fieldset textarea{
+	display: block;
+	margin-bottom: 6px;
+	padding: 6px;
+}
+
+fieldset input{
+	width: 60%;
+}
+
+fieldset textarea{
+	width: 97%;
+}
+
+
+.brand{
+	width: 13%;
+	float: left;
+	line-height: 32px;
+	height: 32px;
+	overflow: hidden;
+}
+
+.brand a{
+	display: block;
+	line-height:32px;
+	height:32px;
+}
+.brand img{
+	line-height: 32px;
+	height: 32px;
+}
+
+
+.brand h1{
+	display: none;
+}
+
+.currency{
+
+}
+
+.topnav{
+	width: 74%;
+	float: left;
+	line-height: 32px;
+	text-align: left;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.topnav a{
+	text-decoration: none;
+	color: #008000; margin-right: 24px;
+	padding-bottom: 6px;
+}
+
+.topnav a:hover{
+	color: #ff8000;
+}
+.topnav a.active{
+	color: #ff8000;
+	/*text-decoration: underline;*/
+	border-bottom: 3px solid #ff8000;
+	
+}
+
+.youUser{
+	width: 13%;
+	float: right;
+	line-height: 32px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.youUser a{
+	text-decoration: none;
+	color: #333; margin-right: 24px;
+	padding-bottom: 6px;
+}
+
+.youUser a:hover{
+	color: #ff8000;
+}
+.youUser a.active{
+	color: #ff8000;
+	/*text-decoration: underline;*/
+	border-bottom: 3px solid #ff8000;
+	
+}
+
+.copyright{
+	font-size: 90%;
+}
+
+.left{ float: left;}
+.right{ float: right;}
+.width10{
+	width: 10%;
+}
+.width13{
+	width: 13%;
+}
+.height100{
+	height:100%;
+}
+
+.columns{
+	position: relative;
+	flex-grow: 1;
+}
+
+.clr{
+	clear: both;
+	content:'';
+	line-height: 1px;
+	height: 1px;
+}
+
+.column50, .width50{
+	width: 50%;
+}
+
+.column33{
+	width: 33%;
+}
+
+.column34{
+	width: 34%;
+}
+
+.card{
+	width:33%;
+	float:left;
+	margin-bottom: 12px;
+}
+
+.card-head,
+.card-content,
+.card-actions{
+	
+}
+
+.card-inner{
+	width: 90%;
+	margin: 0 auto;
+	border-radius: 2px;
+	background-color: #DEDEDE;
+	box-shadow: 0 2px 4px 0 rgba(128, 128, 128, .3);
+}
+
+.card-head{
+	font-weight: bold;
+	padding: 12px;
+	font-size: 110%;
+}
+
+.card-content{
+
+}
+
+.card-actions{
+	margin-top: 12px;
+}
+
+.item{
+	display: block;
+	text-decoration: none;
+	color: #333333;
+	background-color: #FFFFFF;
+	padding: 6px;
+	margin: 6px;
+	margin-bottom: 0;
+	border-radius: 2px;
+	box-shadow: 0 1px 1px 0 rgba(128, 128, 128, .20);
+}
+
+a.item:hover{
+	background-color: #EFEFEF;
+}
+
+.container h1{
+	padding-top: 12px;
+	clear: both;
+}
+
+.card-actions a{
+	display: block;
+	padding: 12px;
+	color: #333333;
+}
+
+.card-actions a:hover{
+	background-color: #CCCCCC;
+}
+
+.left-menu{
+	padding:0;
+	margin:0;
+	float: left;
+	margin-top: 12px;
+	width: 100%;
+}
+
+.left-menu li{
+	list-style: none;
+	padding:0;
+	margin:0;
+	display: block;
+	margin-left: 12px;
+	margin-right: 6px;
+}
+
+.left-menu li a{
+	display: block;
+	padding: 8px;
+	margin-bottom: 8px;
+	text-decoration: none;
+	text-align: left;
+	background-color: #FFFFFF;
+	
+	color: #333333;
+}
+
+.left-menu li a:hover{
+	background-color: #EFEFEF;
+}
+
+.left-menu li.level2{
+	margin-left: 18px;
+}
+
+.footer-menu{
+	padding:0;
+	margin:0;
+}
+.footer-menu li{
+	list-style: none;
+	padding:0;
+	margin:0;
+	margin-left: 12px;
+	margin-right: 6px;
+}
+.footer-menu li.title{
+	font-weight: bold;
+}
+
+.footer-menu li a{
+	margin-bottom: 8px;
+	text-align: left;
+	color: #333333;
+}
+
+.footer-menu li a:hover{
+	background-color: #EFEFEF;
+	text-decoration: none;
+}
+
+.backdrop{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	overflow: hidden;
+	background-color: rgba(64,64,64,0.8);
+}
+
+.hidden{
+	display: none;
+}
+.form-outer{
+	width: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+.form-inner{
+	width: 60%;
+	background-color: #FFFFFF;
+	border-radius: 6px;
+	margin: 32px auto;
+	padding: 12px;
+}
+
+.btn-close{
+	/*float: right;*/
+	position: absolute;
+	top: 16px;
+	right: 64px;
+	cursor: pointer;	
+}
+
+.notification{
+	display: block;
+	margin: 12px;
+	padding: 12px;
+	border: 1px solid #EFEFEF;
+	border-radius: 6px;
+}
+
+.warning{
+	color: #ff9900;
+	border-color: #ff9900;
+}
+
+.error{
+	color: #f80000;
+	border-color: #f80000;
+}
+
+.info{
+	color: #008000;
+	border-color: #008000;
+}
+
+.info a{
+	color: #008000;
+}
+
+.info a:hover{
+	text-decoration: none;
+	color: #ff9900;
+}
+
