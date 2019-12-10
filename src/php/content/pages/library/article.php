@@ -6,6 +6,8 @@ define("SERVICE.PAGE.LIBRARY.ARTICLE",TRUE);
 define("ARTICLE_VISIBILITY_PUBLIC", 0);
 define("ARTICLE_VISIBILITY_REGISTERED", 1);
 
+require_once("articleinfo.php");
+
 //Keeps track of all pages.
 
 class Article{

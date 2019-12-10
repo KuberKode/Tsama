@@ -6,10 +6,18 @@ class TsamaService{
 	public function Load($service){
 		
 		//TODO: Validate input $service. Check for code injections, remote dir listing etc... e.f. serv();echo 'moo';
-		
-		$sfl = Server::GetFullBaseDir() . DS . "services".DS.$service.".php";
+		$baseDir =  Server::GetFullBaseDir();
+		$sfl = $baseDir . DS . "services".DS.$service.".php";
+		$serviceParam = "default";
 		
 		$us = "Tsama\\".ucwords($service);
+
+		//if service does not exist it could be a page ;)
+		if(!file_exists($sfl)){
+			$us = "Tsama\\Page";
+			$sfl = $baseDir . DS . "services".DS."page.php";
+			$serviceParam = $service;
+		}
 		
 		if(!file_exists($sfl)){
 			echo '<!DOCTYPE html><html><head></head><body>';
@@ -21,7 +29,7 @@ class TsamaService{
 		require_once($sfl);		
 		$s = new $us();
 		
-		$s->Run();
+		$s->Run($serviceParam);
 	}
 }
 ?>

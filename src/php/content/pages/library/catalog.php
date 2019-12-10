@@ -26,26 +26,7 @@ class LibraryCatalog{
 			$pageUrl .= $service . '/' . $articleKey;
 		}
 
-		//get article details for that directory
-		//e.g. articleKey.info.php
-		
-		$articleNfo = array(
-			$articleKey,
-			$pageUrl,
-			"Article",
-			"",
-			ARTICLE_VISIBILITY_PUBLIC,
-			"default"
-		);
-		
-		//show page
-		$fl = Server::GetFullBaseDir() . DS . "content".DS."pages".DS."library".DS. $articleKey .DS. $articleKey .".info.php";
-		//Get content
-		if(file_exists($fl)){
-			require_once($fl);
-			
-			$articleNfo = ArticleInfo::GetInfo($articleKey,$pageUrl,ARTICLE_VISIBILITY_PUBLIC);
-		}
+		$articleNfo = ArticleInfo::GetInfo($articleKey,$pageUrl,ARTICLE_VISIBILITY_PUBLIC);
 		
 		$article = new Article($articleNfo);
 
