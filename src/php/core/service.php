@@ -2,13 +2,15 @@
 namespace Tsama;
 define("SERVICE",TRUE);
 
+require_once( Server::GetFullBaseDir() . DS . "core". DS ."form.php");
+
 class TsamaService{
-	public function Load($service){
+	public function Load($service,$serviceParam = "default"){
 		
 		//TODO: Validate input $service. Check for code injections, remote dir listing etc... e.f. serv();echo 'moo';
 		$baseDir =  Server::GetFullBaseDir();
 		$sfl = $baseDir . DS . "services".DS.$service.".php";
-		$serviceParam = "default";
+		//$serviceParam = "default";
 		
 		$us = "Tsama\\".ucwords($service);
 

@@ -69,7 +69,7 @@ class Server{
 		return $fullbasedir;
 	}
 	
-	public static function getFullSubDir(){
+	public static function GetFullSubDir(){
 		$fullsubdir = '/' . Server::GetSubdir() . '/';
 	}
 	

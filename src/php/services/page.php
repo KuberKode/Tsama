@@ -38,6 +38,10 @@ class Page{
 		$fl = $basedir . DS . "content".DS."pages".DS."library".DS. $this->m_activeArticle->keyName .DS. $this->m_activeArticle->keyName .".php";
 		//Get content
 		if(!file_exists($fl)){
+			$debug = Server::GetWebsiteConfig("DEBUG");
+			if($debug){
+				echo '<pre>'.$this->m_activeArticle->keyName.'</pre>';
+			}
 			echo '<div class="container-fluid"><div class="alert alert-danger" role="alert"><p><strong><u>Error:</u></strong></p><ul><li><strong>Page not found.</strong></li></ul></div></div>';
 		}else{
 			require_once($fl);
