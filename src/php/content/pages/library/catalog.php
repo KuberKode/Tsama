@@ -13,17 +13,10 @@ class LibraryCatalog{
 	
 	public static function GetArticle($keyName = 'default'){
 		$articleKey = $keyName;
-		
-		$route = Server::GetRoute();		
-		if(count($route) > 1){ //Article should be at 1 e.g. /page/about
-			$articleKey = $route[1];
-		}
 
-		$pageUrl = '';
-		$service = Server::GetService();
-		
-		if($service != 'page' && $articleKey != 'default'){
-			$pageUrl .= $service . '/' . $articleKey;
+		$pageUrl = $articleKey;
+		if($articleKey == 'default'){
+			$pageUrl = "";
 		}
 
 		$articleNfo = ArticleInfo::GetInfo($articleKey,$pageUrl,ARTICLE_VISIBILITY_PUBLIC);

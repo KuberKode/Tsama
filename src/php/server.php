@@ -5,6 +5,27 @@ session_start();
 
 define('DS', DIRECTORY_SEPARATOR);
 
+$_DB_CONFIG = array(
+	'Active' => FALSE,
+	'Connection' => null,
+	'Driver' => 'mysql',
+	'Host' => 'localhost',
+	'Username' => '',
+	'Password' => '',
+	'Name' => ''
+);
+
+$_WEB_CONFIG = array(
+	'NAME' => 'Tsama',
+	'LOGO' => 'tsama.png',
+	'THEME' => 'default',
+	'LAYOUT' => 'default',
+	'LANGUAGE' => 'en',
+	'DEBUG' => FALSE
+);
+
+$_DEBUG = array();
+
 //Example
 //----------------------------------------------------
 //Given a url
@@ -65,7 +86,7 @@ class Server{
 	}
 	
 	public static function GetFullBaseDir(){
-		$fullbasedir = Server::GetBaseDir() . '/';
+		$fullbasedir = Server::GetBaseDir() ;
 		return $fullbasedir;
 	}
 	
@@ -113,6 +134,7 @@ class Server{
 	}
 	
 	public static function GetWebsiteConfig($configName = null){
+		global $_WEB_CONFIG;
 		//Defaults. do not edit. Add conf/site.conf.php file instead
 		$_WEB_CONFIG = array(
 			'NAME' => 'Tsama',
@@ -124,7 +146,6 @@ class Server{
 		);
 		
 		$site_file = Server::GetFullBaseDir() .DS.'conf'.DS.'site.conf.php';
-
 		if(file_exists($site_file)){
 			include($site_file);
 		}
@@ -140,7 +161,7 @@ class Server{
 	}
 	
 	public static function GetDatabaseConfig($configName = null){
-		
+		global $_DB_CONFIG;
 		$_DB_CONFIG = array(
 			'Active' => FALSE,
 			'Connection' => null,
@@ -165,7 +186,10 @@ class Server{
 		}
 		
 		return $_DB_CONFIG;
-	}	
+	}
+	
 }
 
+Server::GetWebsiteConfig();
+Server::GetDatabaseConfig();
 ?>

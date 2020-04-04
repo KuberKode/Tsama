@@ -5,7 +5,6 @@ class ArticleInfo{
 	public static function GetInfo($articleKey,$pageUrl,$visibility){
         //get article details for that directory
 		//e.g. articleKey.info.php
-		
 		$articleNfo = array(
 			$articleKey,
 			$pageUrl,
@@ -15,10 +14,10 @@ class ArticleInfo{
 			"default"
         );
         
-        $fl = Server::GetFullBaseDir() . DS . "content".DS."pages".DS."library".DS. $articleKey .DS. $articleKey .".info.php";
+		$fl = Server::GetFullBaseDir() . DS . "content".DS."pages".DS."library".DS. $articleKey .DS. $articleKey .".info.php";
 		//Get content
 		if(file_exists($fl)){
-            require_once($fl);
+            require($fl);
         }
 
         return $articleNfo;

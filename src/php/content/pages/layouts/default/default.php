@@ -26,6 +26,8 @@ class Layout{
 	
 	public static function EndBody($activeArticle){
 		
+		Debug::Show();
+
 		Layout::EndContent();
 		Layout::EndMain();
 		Layout::StartFooter();
@@ -48,7 +50,7 @@ class Layout{
 	
 	public static function ShowMainNav($activeArticle){
 		$base = Server::GetBaseUrl();
-		$articels = PageWorker::GetLibraryCatalog();
+		$articles = PageWorker::GetLibraryCatalog();
 		//echo '<div class="w-100">';
 		echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainnav">';
 		//logo
@@ -57,7 +59,7 @@ class Layout{
 		
 		//top navs
 		echo '<ul class="navbar-nav mr-auto mt-2 mt-lg-0">';
-		foreach($articels as $article){
+		foreach($articles as $article){
 			echo '<li class="nav-item text-nowrap">';
 			echo PageWorker::GetArticleAnchor($article);
 			echo '</li>';
