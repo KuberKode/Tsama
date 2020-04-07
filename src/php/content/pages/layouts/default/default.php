@@ -50,7 +50,7 @@ class Layout{
 	
 	public static function ShowMainNav($activeArticle){
 		$base = Server::GetBaseUrl();
-		$articles = PageWorker::GetLibraryCatalog();
+		$articles = LibraryCatalog::GetArticles(); //TODO: Nav service here
 		//echo '<div class="w-100">';
 		echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainnav">';
 		//logo
@@ -61,7 +61,7 @@ class Layout{
 		echo '<ul class="navbar-nav mr-auto mt-2 mt-lg-0">';
 		foreach($articles as $article){
 			echo '<li class="nav-item text-nowrap">';
-			echo PageWorker::GetArticleAnchor($article);
+			echo $article->GetAnchor();
 			echo '</li>';
 		}
 		echo '</ul>';

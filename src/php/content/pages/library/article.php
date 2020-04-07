@@ -62,6 +62,14 @@ class Article{
 		}
 		$this->children = array();
 	}
+
+	public function GetAnchor(){
+		$base = Server::GetBaseUrl();
+		$a = '<a href="'.$base . $this->url.'" class="nav-link ';
+		if($this->active){ $a .= 'active'; }
+		$a .= '">'.$this->name.'</a>';
+		return $a;
+	}
 }
 
 ?>

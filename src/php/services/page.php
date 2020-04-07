@@ -2,22 +2,19 @@
 namespace Tsama;
 define("SERVICE.PAGE",TRUE);
 
-require_once("page/pageworker.php");
+require_once(Server::GetFullBaseDir() . DS . "content".DS."pages".DS."library".DS."catalog.php");
 
 class Page{
 	
-	private $m_articles = null; //visible articles
 	private $m_activeArticle = null;
 
-	public function __construct(){
-		
-		$this->m_articles = PageWorker::GetLibraryCatalog();
-		$this->m_activeArticle = PageWorker::GetActiveArticle();
-			}
+	public function __construct(){		
+		$this->m_activeArticle = LibraryCatalog::GetActiveArticle();
+	}
 	
 	public function Run($name = 'default'){
 		
-		$this->m_activeArticle = PageWorker::GetActiveArticle($name);
+		$this->m_activeArticle = LibraryCatalog::GetActiveArticle();
 		
 		$this->m_siteTheme = $this->m_activeArticle->theme;
 		
