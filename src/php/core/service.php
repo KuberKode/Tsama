@@ -5,6 +5,12 @@ define("SERVICE",TRUE);
 require_once( Server::GetFullBaseDir() . DS . "core". DS ."form.php");
 
 class TsamaService{
+
+	private $m_service = null;
+
+	public function __construct(){
+	}
+
 	public function Load($service,$serviceParam = "default"){
 		
 		//TODO: Validate input $service. Check for code injections, remote dir listing etc... e.f. serv();echo 'moo';
@@ -29,9 +35,13 @@ class TsamaService{
 		}
 		
 		require_once($sfl);		
-		$s = new $us();
+		$this->m_service = new $us();
 		
-		$s->Run($serviceParam);
+		$this->m_service->Run($serviceParam);
+	}
+
+	public function GetService(){
+		return $this->m_service;
 	}
 }
 ?>

@@ -50,7 +50,13 @@ class Layout{
 	
 	public static function ShowMainNav($activeArticle){
 		$base = Server::GetBaseUrl();
-		$articles = LibraryCatalog::GetArticles(); //TODO: Nav service here
+
+		$navService = new TsamaService();
+		$navService->Load("nav","main");
+		$nav = $navService->GetService();
+		$articles = $nav->GetCatalog();
+
+		//$articles = LibraryCatalog::GetArticles(); //TODO: Nav service here
 		//echo '<div class="w-100">';
 		echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainnav">';
 		//logo
@@ -75,7 +81,21 @@ class Layout{
 		echo '<div class="col-md-2 d-none d-md-block bg-light sidebar">';
 	}
 	//branding and left nav
-	public static function ShowLeftNav(){}
+	public static function ShowLeftNav(){
+
+		$navService = new TsamaService();
+		$navService->Load("nav","side");
+		$nav = $navService->GetService();
+		$articles = $nav->GetCatalog();
+
+		echo '<ul class="nav flex-column" id="leftnav">';
+		foreach($articles as $article){
+			echo '<li class="nav-item text-nowrap">';
+			echo $article->GetAnchor();
+			echo '</li>';
+		}
+		echo '</ul>';
+	}
 	public static function EndSidebar(){
 		echo '</div>';
 	}
