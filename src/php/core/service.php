@@ -2,7 +2,10 @@
 namespace Tsama;
 define("SERVICE",TRUE);
 
-require_once( Server::GetFullBaseDir() . DS . "core". DS ."form.php");
+require_once( Server::GetFullBaseDir() . DS . "core". DS ."form.php" );
+
+$_SERV_CONFIG = array();
+require_once( Server::GetFullBaseDir() . DS . "core". DS ."serv".DS."conf.php" );
 
 class TsamaService{
 
@@ -12,11 +15,12 @@ class TsamaService{
 	}
 
 	public function Load($service,$serviceParam = "default"){
-		
-		//TODO: Validate input $service. Check for code injections, remote dir listing etc... e.f. serv();echo 'moo';
+		global $_SERV_CONFIG;
+		$servConfKey = strtoupper($service) . ".PUBLIC";
+
+		//TODO: Validate input $service. Check for code injections, remote dir listing etc... e.g. serv();echo 'moo';
 		$baseDir =  Server::GetFullBaseDir();
 		$sfl = $baseDir . DS . "services".DS.$service.".php";
-		//$serviceParam = "default";
 		
 		$us = "Tsama\\".ucwords($service);
 
@@ -25,6 +29,7 @@ class TsamaService{
 			$us = "Tsama\\Page";
 			$sfl = $baseDir . DS . "services".DS."page.php";
 			$serviceParam = $service;
+			$servConfKey = "PAGE.PUBLIC";
 		}
 		
 		if(!file_exists($sfl)){
@@ -35,8 +40,11 @@ class TsamaService{
 		}
 		
 		require_once($sfl);		
-		$this->m_service = new $us();
+		$this->m_service = new $us();		
 		
+		if(isset($_SERV_CONFIG[$servConfKey])){
+			$this->m_service->SetPublic($_SERV_CONFIG[$servConfKey]);
+		}
 		$this->m_service->Run($serviceParam);
 	}
 

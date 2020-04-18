@@ -1,6 +1,9 @@
 <?php
 namespace Tsama;
 if(!defined("TSAMA")){ header("Location: /"); return; };
+
+define("SERVER",TRUE);
+
 session_start();
 
 define('DS', DIRECTORY_SEPARATOR);

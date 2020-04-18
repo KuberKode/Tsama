@@ -7,9 +7,14 @@ require_once(Server::GetFullBaseDir() . DS . "content".DS."pages".DS."library".D
 class Page{
 	
 	private $m_activeArticle = null;
+	private $m_public = TRUE;
 
 	public function __construct(){		
 		$this->m_activeArticle = LibraryCatalog::GetActiveArticle();
+	}
+
+	public function SetPublic($publicConfig = TRUE){
+		$this->m_public = $publicConfig;
 	}
 	
 	public function Run($name = 'default'){

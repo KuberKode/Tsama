@@ -7,6 +7,7 @@ require_once(Server::GetFullBaseDir() . DS . "content".DS."pages".DS."library".D
 class Nav{
 
     private $m_catalog = null;
+    private $m_public = TRUE;
 
 	public function __construct(){
 	}
@@ -25,6 +26,11 @@ class Nav{
         }
 
     }
+
+    public function SetPublic($publicConfig = TRUE){
+		$this->m_public = $publicConfig;
+	}
+    
     
     public function GetCatalog(){
         return $this->m_catalog;
