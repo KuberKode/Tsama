@@ -6,6 +6,7 @@ require_once("server.php");
 require_once( Server::GetFullBaseDir() .DS."core".DS."security.php");
 require_once( Server::GetFullBaseDir() .DS."core".DS."debug.php");
 require_once( Server::GetFullBaseDir() .DS."core".DS."router.php");
+require_once( Server::GetFullBaseDir() .DS."core".DS."database.php");
 
 $route = Server::GetRoute();
 $router = new TsamaRouter();
