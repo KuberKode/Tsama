@@ -24,7 +24,8 @@ $_WEB_CONFIG = array(
 	'THEME' => 'default',
 	'LAYOUT' => 'default',
 	'LANGUAGE' => 'en',
-	'DEBUG' => FALSE
+	'DEBUG' => FALSE,
+	'MAINTENANCE_MODE' => FALSE
 );
 
 $_DEBUG = array();
@@ -145,7 +146,8 @@ class Server{
 			'THEME' => 'default',
 			'LAYOUT' => 'default',
 			'LANGUAGE' => 'en',
-			'DEBUG' => FALSE
+			'DEBUG' => FALSE,
+			'MAINTENANCE_MODE' => FALSE
 		);
 		
 		$site_file = Server::GetFullBaseDir() .DS.'conf'.DS.'site.conf.php';

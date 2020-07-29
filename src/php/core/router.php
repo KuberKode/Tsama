@@ -14,6 +14,13 @@ class TsamaRouter{
 			$firstPath = $route[0]; //service always first item in route
 		}
 		
+		//Check for maintenance mode
+		$conf = Server::GetWebsiteConfig("MAINTENANCE_MODE");
+		if(isset($conf["MAINTENANCE_MODE"])){
+			if($conf["MAINTENANCE_MODE"] == TRUE){
+				$firstPath = "maintenance";
+			}
+		}
 		$service = new TsamaService();
 		
 		$service->Load($firstPath);

@@ -6,4 +6,5 @@ $_WEB_CONFIG['THEME'] = 'default'; //defautl theme of your website
 $_WEB_CONFIG['LAYOUT'] = 'default'; //default layout fo your website
 $_WEB_CONFIG['LANGUAGE'] = 'en'; //language of your website
 $_WEB_CONFIG['DEBUG'] = TRUE; //show debug, TRUE or FALSE. Not recommended for  prouction site
+$_WEB_CONFIG['MAINTENANCE_MODE'] = FALSE; //site in maintenance mode, TRUE or FALSE
 ?>
