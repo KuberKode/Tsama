@@ -17,6 +17,15 @@ class Nav{
         Debug::Log("Nav->Run(".$name.")");
         
         $this->m_catalog = array( LibraryCatalog::GetArticle('default') );
+		
+		//Check for maintenance mode
+		$conf = Server::GetWebsiteConfig("MAINTENANCE_MODE");
+		if(isset($conf["MAINTENANCE_MODE"])){
+			if($conf["MAINTENANCE_MODE"] == TRUE){
+				$this->m_catalog = array( );
+				return;
+			}
+		}
         
         $fl = Server::GetFullBaseDir() . DS . "content".DS."navs".DS. $name .".php";
 
