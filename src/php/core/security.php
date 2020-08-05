@@ -8,7 +8,9 @@ define("NL","\n");
 
 
 $_SEC_CONFIG = array(
-	'INT32' => FALSE
+	'INT32' => FALSE,
+	'FOOTPRINT_SALT' => base64_encode("BROWSER_FOOTPRINT"),
+	'CSP' => array()
 );
 
 class TsamaSecurity{
@@ -19,14 +21,16 @@ class TsamaSecurity{
 
 	public function __construct(){
 		//get security config
-		$conf = $this->GetConfig("INT32");
+		$conf = TsamaSecurity::GetConfig("INT32");
 		$this->SetInt32($conf["INT32"]);
 	}
 	
-	private function GetConfig($configName = null){
+	public static function GetConfig($configName = null){
 		global $_SEC_CONFIG;
 		$_SEC_CONFIG = array(
-			'INT32' => FALSE
+			'INT32' => FALSE,
+			'FOOTPRINT_SALT' => base64_encode("BROWSER_FOOTPRINT"),
+			'CSP' => array()
 		);
 
 		$sec_file = Server::GetFullBaseDir() .DS.'core'.DS.'sec'.DS.'conf.php';
@@ -44,8 +48,174 @@ class TsamaSecurity{
 		
 		return $_SEC_CONFIG;
 	}
-    
-    public function Run($parameter = 'default'){}
+	
+	public static function GetContentSecurityPolicy(){
+		return $conf = TsamaSecurity::GetConfig("CSP");
+	}
+	
+	public static function GetContentSecurityPolicyString(){
+		$conf = TsamaSecurity::GetConfig("CSP");
+		$csp = "";
+		if(count($conf["CSP"]) > 0){
+			foreach($conf["CSP"] as $key => $value){
+				if(!empty($value)){
+					$csp .= $key . " " . $value . "; ";
+				}
+			}
+		}
+		
+		return $csp;
+	}
+
+	public static function GetFootprint(){
+		//get browser footprint
+		$footprint = "BFP:";
+		$keys = array(
+			'HTTP_CONNECTION',
+			'HTTP_UPGRADE_INSECURE_REQUESTS',
+			'HTTP_USER_AGENT',
+			'HTTP_ACCEPT',
+			'HTTP_ACCEPT_ENCODING',
+			'HTTP_ACCEPT_LANGUAGE'
+		);
+		foreach($keys as $value){
+			if(isset($_SERVER[$value])){
+				$footprint .= $value . ">>" . $_SERVER[$value].";";
+			}
+		}
+
+		$footprint_salt = TsamaSecurity::GetConfig("FOOTPRINT_SALT")["FOOTPRINT_SALT"];
+		$footprint_hash = hash("sha256", $footprint_salt . "[". $footprint ."]");
+		
+		return $footprint_hash;
+	}
+
+	public static function PadValue($value,$char,$length){
+		$padded = $value;
+		$vlen = strlen($value);
+		$plen = $length - $vlen;
+		if($plen > 0){
+			for($i=0;$i < $plen; $i++){
+				$padded = $char . $padded;
+			}
+		}
+		return $padded;
+	}
+
+	public static function CreateDeviceIdentifier(){
+
+		$now = new \DateTime();
+
+		$did = $now->format("Ymd") . " ";
+
+		$bv = $now->format("Bv");
+
+		$bv1 = (int)substr($bv,0,2);
+		$bv2 = (int)substr($bv,2,2);
+		$bv3 = (int)substr($bv,4,2);
+
+		$minus = rand(128,256);
+
+		$did .= dechex($minus-$bv1);
+		$did .= dechex($minus-$bv2);
+		$did .= dechex($minus-$bv3) . " ";
+
+		//TODO:see if an id already exist for the device
+			//from POST 
+		//Check device id in db
+			//e.g. [date][Swatch Time . Milliseconds][dbid][devcntforday]
+			// 20205022|999999|000001|0001
+
+		//DB Operations
+		
+		$db = new TsamaDatabase();
+		if($db->Connect()){
+			$data = array(
+				$_SERVER['REMOTE_ADDR'],
+				TsamaSecurity::GetFootprint()
+			);
+			//insert new entry
+			$dbRes = $db->Query('INSERT INTO `t_anon_device`(`REMOTE_ADDR`,`FOOTPRINT`) VALUES (?,?);', $data);
+			$DbId = $db->GetLastInsertId();
+			$did .= TsamaSecurity::PadValue($DbId,"0",6) . " ";
+
+			//get count for today
+			$beanCount = 0;
+			$today = new \DateTime();
+			$beans = $db->Query("SELECT `NUMBER` FROM `t_anon_device_beans` WHERE `DATE_CREATED` = '".$today->format('Y-m-d')."'");
+			if($beans->rowCount() > 0){
+				$beanObj =  $beans->fetch(\PDO::FETCH_OBJ);
+				$beanCount = $beanObj->NUMBER;
+				$beanCount++;
+			}
+			if($beanCount == 0){
+				$beanRes = $db->Query("INSERT INTO `t_anon_device_beans`(`NUMBER`,`DATE_CREATED`) VALUES (1, '".$today->format('Y-m-d')."');");
+				$beanCount = 1;
+			}
+			if($beanCount > 1){
+				$beanRes = $db->Query("UPDATE `t_anon_device_beans` SET `NUMBER`=".$beanCount." WHERE `DATE_CREATED`='".$today->format('Y-m-d')."';");
+			}
+			
+			$did .= TsamaSecurity::PadValue($beanCount,"0",4);
+
+			$dbRes = $db->Query("UPDATE `t_anon_device` SET `IDENTIFIER` = '".$did."' WHERE `ID`='".$DbId."';", $data);
+
+		}
+
+		return $did;
+	}
+
+	public static function ValidateDeviceIdentifier($identifier){
+		try{
+			//check base64 encoded string length
+			if(strlen($identifier) != 36){
+				return FALSE;
+			}
+
+			//decode
+			$decoded = base64_decode($identifier);
+			//see if an id exist for the device
+			$comps = explode(" ",$decoded);
+
+			//count should be 4
+			if(count($comps) != 4){
+				return FALSE;
+			}
+
+			$anonId = intval($comps[2]);
+			//Check device id in db
+			$dbdata = array($anonId, $decoded);
+			$dbq = 'SELECT b.`ID`, b.`IDENTIFIER` FROM `t_user_device` a, `t_anon_device` b WHERE a.`FK_ANON_DEVICE_ID`=? AND b.`ID` = a.`FK_ANON_DEVICE_ID` AND b.`IDENTIFIER` = ?;';
+			//fist check if registered device
+			$db = new TsamaDatabase();
+			$usrDev = $db->Query($dbq,$dbdata);
+			if($usrDev->rowCount() > 0){
+				//registred
+				//validate identifier
+				return TRUE;
+			}
+
+			//check for anon device
+			//todo: maybe check day as well
+			$usrDev = $db->Query('SELECT `ID`,`IDENTIFIER` FROM `t_anon_device` WHERE `ID`=? AND `IDENTIFIER` = ?;',$dbdata);
+			if($usrDev->rowCount() > 0){
+				//registred
+				//validate identifier
+				return TRUE;
+			}
+
+		}catch(Exception $e){
+			return FALSE;
+		}
+		return FALSE;
+	}
+    public function Run($parameter = 'default'){
+		//if($this->m_public){
+			header('Content-Type: application/json');
+			$out = Array("ulid" => "online","value" => $this->GenerateULID());
+			echo json_encode($out);
+		//}
+	}
 
 	public function GenerateULID(){
 		$ulid = $this->CreateULID();

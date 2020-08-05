@@ -23,19 +23,24 @@ class TsamaDatabase{
 		return FALSE;
 	}
 
-	public function CheckVersion(){
+	public function GetLastInsertId(){
+		return $this->m_connection->lastInsertId();
+	}
 
+	public function CheckVersion(){
+		//verify configured version against db config.
 	}
 	public function CheckUpdate(){
-
+		//determine update path
 	}
 	public function Install(){
-
+		//install fresh or update
 	}
 
 	public function Query($sql,$params = null){
 		try{
 			if (!$this->Connect()){
+				Debug::Log("Not Connected");
 				return null;
 			}
 
@@ -43,6 +48,7 @@ class TsamaDatabase{
 
 			$conn = $this->m_connection;
 			if(!$this->IsActive() && !is_object($conn)){
+				Debug::Log("Not Connected");
 				return null;
 			}
 
